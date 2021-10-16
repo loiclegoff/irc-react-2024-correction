@@ -1,28 +1,33 @@
-import { useState } from 'react';
-import { Badge, Form } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
 
-function App(props) {
-  // set the initial title value with injected props
-  const [title, setTitle] = useState(props.title);
-  const [mouseOverNum, setMouseOverNum] = useState(0);
+function App() {
+  const [robotList, setRobotList] = useState([]);
 
-  //function with the event as parameter
-  const handleChangeTitle = (e) => setTitle(e.target.value);
-  const handleMouseOverTitle = () =>
-    setMouseOverNum(mouseOverNum + 1);
+  useEffect(() => {
+    const fetchData = async () => {
+      const resp = await fetch(
+        'https://robot-cpe-2024.cleverapps.io/robots'
+      );
+      const robotList = await resp.json();
+      setRobotList(robotList);
+    };
+    fetchData();
+  }, []);
 
   return (
-    <div className="App">
-      <h1>
-        this is my first React Component{' '}
-        <Badge variant="primary">{mouseOverNum}</Badge>
-      </h1>
-      <Form.Label>Title</Form.Label>
-      <Form.Control onChange={handleChangeTitle} value={title} />
-      <div onMouseOver={handleMouseOverTitle}>
-        <h3>{title}</h3>
-      </div>
-    </div>
+    <Container fluid>
+      <Row>
+        <h1> Welcome to robot shop</h1>
+      </Row>
+      <Row>
+        <Col md={4} lg={4}>
+          {JSON.stringify(robotList)}
+        </Col>
+        <Col md={4} lg={4} />
+        <Col md={4} lg={4} />
+      </Row>
+    </Container>
   );
 }
 
