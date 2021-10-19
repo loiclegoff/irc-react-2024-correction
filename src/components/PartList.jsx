@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setParts } from '../core/actions';
+import { selectParts } from '../core/selectors';
 import { PartDetail } from './part-detail/PartDetail';
 import { Part } from './part/Part';
 
 export function PartList(props) {
-  const [partList, setPartList] = useState([]);
   const [selectedPartId, setSelectedPartId] = useState(undefined);
+  const dispatch = useDispatch();
+  const partList = useSelector(selectParts);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -13,10 +18,10 @@ export function PartList(props) {
         'https://robot-cpe-2024.cleverapps.io/parts'
       );
       const partList = await resp.json();
-      setPartList(partList);
+      dispatch(setParts(partList));
     };
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   // reset selected part id when robot selection is updated
   useEffect(() => {
