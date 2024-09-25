@@ -1,11 +1,16 @@
 import { Container, Row, Col } from 'react-bootstrap';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { PartList } from './components/PartList';
 import { RobotList } from './components/RobotList';
 import globalReducer from './core/reducers';
 
-const store = createStore(globalReducer);
+const store = createStore(
+  globalReducer,
+  undefined,
+  composeWithDevTools()
+);
 
 function App() {
   return (
