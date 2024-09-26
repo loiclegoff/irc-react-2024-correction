@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Button, InputGroup, Form } from 'react-bootstrap';
 import { RobotList } from './components/RobotList';
+import { PartList } from './components/PartList';
 
 function App() {
   const [robots, setRobots] = useState([]);
+  const [selectedPartIds, setSelectedPartIds] = useState([]);
 
   useEffect(() => {
     async function fetchRobots() {
@@ -22,7 +23,11 @@ function App() {
     <div className="App">
       <h1> this is my first React Component </h1>
 
-      <RobotList robotList={robots}></RobotList>
+      <RobotList
+        robotList={robots}
+        setSelectedPartIds={setSelectedPartIds}
+      ></RobotList>
+      <PartList selectedPartIds={selectedPartIds} />
     </div>
   );
 }

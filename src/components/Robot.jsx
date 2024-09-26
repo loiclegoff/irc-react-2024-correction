@@ -1,10 +1,14 @@
 import { Card } from 'react-bootstrap';
 import { Visual } from './Visual';
+
 export function Robot(props) {
-  const { title, id, visual_type, visual_src } = props.robot;
+  const { title, id, visual_type, visual_src, parts } = props.robot;
 
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card
+      style={{ width: '18rem' }}
+      onClick={() => props.setSelectedPartIds(parts)}
+    >
       <Card.Body>
         <Visual type={visual_type} src={visual_src} />
         <Card.Title>{title}</Card.Title>
