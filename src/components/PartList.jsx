@@ -1,14 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Part } from './Part';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-export function PartList(props) {
-  const [parts, setParts] = useState([]);
-
-  const selectedRobotId = useSelector(
-    (state) => state.robotReducer.selectedRobotId
-  );
-
+export function PartList() {
+  const dispatch = useDispatch();
   useEffect(() => {
     async function fetchParts() {
       const resp = await fetch(
@@ -17,20 +12,25 @@ export function PartList(props) {
 
       const partsResp = await resp.json();
 
-      setParts(partsResp);
+      dispatch({
+        type: 'ADD_PARTS',
+        payload: partsResp,
+      });
     }
     fetchParts();
-  }, []);
+  }, [dispatch]);
 
-  console.log(selectedRobotId);
+  const selectedParts = useSelector((state) =>
+    state.partReducer.parts.filter((part) =>
+      state.partReducer.selectedPartIds.includes(part.id)
+    )
+  );
 
   return (
     <div>
-      {parts
-        .filter((part) => props.selectedPartIds.includes(part.id))
-        .map((part) => (
-          <Part key={part.id} part={part} />
-        ))}
+      {selectedParts.map((part) => (
+        <Part key={part.id} part={part} />
+      ))}
     </div>
   );
 }

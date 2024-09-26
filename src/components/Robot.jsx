@@ -10,7 +10,7 @@ export function Robot(props) {
     props.setSelectedPartIds(parts);
     dispatch({
       type: 'UPDATE_SELECTED_ROBOT',
-      payload: id,
+      payload: { selectedRobotId: id, selectedPartIds: parts },
     });
   }
 

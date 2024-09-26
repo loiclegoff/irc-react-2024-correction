@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { RobotList } from './components/RobotList';
 import { PartList } from './components/PartList';
 import { Col, Container, Row } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 
 function App() {
-  const [robots, setRobots] = useState([]);
   const [selectedPartIds, setSelectedPartIds] = useState([]);
+  const dipatch = useDispatch();
 
   useEffect(() => {
     async function fetchRobots() {
@@ -15,10 +16,13 @@ function App() {
 
       const robotsResp = await resp.json();
 
-      setRobots(robotsResp);
+      dipatch({
+        type: 'ADD_ROBOTS',
+        payload: robotsResp,
+      });
     }
     fetchRobots();
-  }, []);
+  }, [dipatch]);
 
   return (
     <Container fluid>
@@ -29,7 +33,6 @@ function App() {
       <Row>
         <Col>
           <RobotList
-            robotList={robots}
             setSelectedPartIds={setSelectedPartIds}
           ></RobotList>
         </Col>
