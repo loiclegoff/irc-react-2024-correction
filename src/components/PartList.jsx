@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Part } from './Part';
 
 export function PartList(props) {
   const [parts, setParts] = useState([]);
@@ -16,5 +17,13 @@ export function PartList(props) {
     fetchParts();
   }, []);
 
-  return <div>{JSON.stringify(props.selectedPartIds)}</div>;
+  return (
+    <div>
+      {parts
+        .filter((part) => props.selectedPartIds.includes(part.id))
+        .map((part) => (
+          <Part part={part} />
+        ))}
+    </div>
+  );
 }
