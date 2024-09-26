@@ -23,7 +23,6 @@ function App() {
   return (
     <Container fluid>
       <Row>
-        {' '}
         <h1> this is my first React Component </h1>
       </Row>
 

@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Part } from './Part';
+import { useSelector } from 'react-redux';
 
 export function PartList(props) {
   const [parts, setParts] = useState([]);
+
+  const selectedRobotId = useSelector(
+    (state) => state.robotReducer.selectedRobotId
+  );
 
   useEffect(() => {
     async function fetchParts() {
@@ -17,12 +22,14 @@ export function PartList(props) {
     fetchParts();
   }, []);
 
+  console.log(selectedRobotId);
+
   return (
     <div>
       {parts
         .filter((part) => props.selectedPartIds.includes(part.id))
         .map((part) => (
-          <Part part={part} />
+          <Part key={part.id} part={part} />
         ))}
     </div>
   );
